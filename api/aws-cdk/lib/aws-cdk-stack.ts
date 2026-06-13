@@ -6,7 +6,6 @@ import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patte
 import { ManagedPolicy } from 'aws-cdk-lib/aws-iam';
 import { Stack, StackProps } from 'aws-cdk-lib/core';
 import { Construct } from 'constructs';
-import process from 'node:process';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 
 export class AwsCdkStack extends Stack {
@@ -19,13 +18,11 @@ export class AwsCdkStack extends Stack {
             this,
             "VPC",
             {
-                vpcId: process.env.AWS_VPC_ID,
+                vpcId: "vpc-07c74926639850a09",
             }
         )
 
-        const registry = new Repository(this, "repo", {
-            repositoryName: "repositorio-teste"
-        })
+        const registry = Repository.fromRepositoryName(this, "repo", "repositorio-teste")
 
         const cluster = new Cluster(
             this,
@@ -45,13 +42,14 @@ export class AwsCdkStack extends Stack {
                 publicLoadBalancer: true,
                 listenerPort: 80,
                 
-                taskImageOptions: {
+              taskImageOptions: {
+                    containerName:"container-teste",
                     image: ContainerImage.fromRegistry(
-                        `${process.env.AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/repositorio-teste:latest`
+                        "140191121263.dkr.ecr.us-east-1.amazonaws.com/repositorio-teste:latest"
                     ),
                     containerPort: 3000
                 },
-
+                serviceName: "service-teste",
                 desiredCount: 2,
                 cpu: 512,
                 memoryLimitMiB: 1024,
@@ -60,7 +58,8 @@ export class AwsCdkStack extends Stack {
         fargate.taskDefinition.executionRole?.addManagedPolicy(
             ManagedPolicy.fromAwsManagedPolicyName(
                 "service-role/AmazonECSTaskExecutionRolePolicy"
-            )
+          ),
+          
         )
 
         // const keyPair = KeyPair.fromKeyPairName(
@@ -84,6 +83,7 @@ export class AwsCdkStack extends Stack {
         //     securityGroup: SecurityGroup.fromLookupById(
         //       this, 
         //       "API-SG",
+        //       "sg-0f1e6e939d193a7ad"
         //     ),
 
         //   }

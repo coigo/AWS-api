@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import * as cdk from 'aws-cdk-lib/core';
 import { AwsCdkStack } from '../lib/aws-cdk-stack';
-import process from 'process';
 
 const app = new cdk.App();
 new AwsCdkStack(app, 'AwsCdkStack', {
@@ -15,7 +14,7 @@ new AwsCdkStack(app, 'AwsCdkStack', {
 
   /* Uncomment the next line if you know exactly what Account and Region you
    * want to deploy the stack to. */
-  env: { account: process.env.AWS_ACCOUNT_ID, region: 'us-east-1' },
+  env: { account: '140191121263', region: 'us-east-1' },
 
   
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
