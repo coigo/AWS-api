@@ -49,6 +49,12 @@ jobs:
     environment: production
 
     steps:
+
+    - name: Log var 
+      run: |
+        echo "cluster=$ECS_CLUSTER"
+        echo "service=$ECS_SERVICE"
+      
     - name: Checkout
       uses: actions/checkout@v4
 
