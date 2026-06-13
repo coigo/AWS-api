@@ -4,7 +4,7 @@ import { usersTable } from "./db/schema";
 
 const app = new Elysia()
 
-app.get("/", () => "Hello Elysia")
+app.get("/", () => "Nova versao v2")
 
 app.get("/users", async () => {
 try {
